@@ -6,34 +6,27 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:54:53 by mlarra            #+#    #+#             */
-/*   Updated: 2022/02/18 13:25:23 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/02/21 15:34:28 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-#include <stdio.h>
+void	ft_perror(char *str)
+{
+	perror(str);
+	exit(1);
+}
 
 int	main(int argc, char **argv)//, char **env)
 {
 	pid_t	pid;
 	int		mypipe[2];
 
-// while (*env)
-// {
-// 	printf("%s\n", *env);
-// 	(*env)++;
-// }
-
-// printf("Directory = %s\n", getenv("bash"));
-
 (void)argv;
 
 	if (argc != 5)
-	{
-		write(2, "Too few or many arguments\n", 26);
-		return (0);
-	}
+		ft_perror("Too few or many arguments");
 	if (pipe(mypipe))
 	{
 		write(2, "Pipe failed.\n", 13);
