@@ -6,7 +6,7 @@
 #    By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 15:05:06 by mlarra            #+#    #+#              #
-#    Updated: 2022/02/21 19:15:46 by mlarra           ###   ########.fr        #
+#    Updated: 2022/02/22 15:37:29 by mlarra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,13 @@ NAME	=	pipex
 
 SRCS_DIR	=	src
 
-SRCS	=	pipex.c
+SRCS	=	pipex.c	ft_split.c
 
 SOURCES	=	${addprefix ${SRCS_DIR}/, ${SRCS}}
 
 OBJ_DIR	=	objects
 
-OBJ		=	${addprefix ${OBJ_DIR}/, ${SRCS:.c=.o}}
+OBJ		=	${SOURCES:${SRCS_DIR}/%.c=${OBJ_DIR}/%.o}
 
 HEADER	=	${SRCS_DIR}/pipex.h
 
@@ -32,18 +32,19 @@ RM		=	rm -f
 
 .PHONY	:	all	clean	fclean	re	bonus norm
 
-${OBJ_DIR}/%.o	: %.c ${HEADER}
-	mkdir ${OBJ_DIR} 2> /dev/null || true
+${OBJ_DIR}/%.o	: ${SRCS_DIR}/%.c ${HEADER}
+	@mkdir ${OBJ_DIR} 2> /dev/null || true
 	${CC} ${CFLAGS} -c $< -o $@
+# @echo "created objects file"
 
 ${NAME}	:	${HEADER} ${OBJ}
-	${CC} ${CFLAGS} ${SRCS} -o ${NAME}
+	${CC} ${CFLAGS} ${SOURCES} -o ${NAME}
 
 all		:	${NAME}
 
 clean	:
 	${RM} ${OBJ}
-	rmdir ${OBJ_DIR} 2> /dev/null || true
+	@rmdir ${OBJ_DIR} 2> /dev/null || true
 
 fclean	:	clean
 	${RM} ${NAME}
