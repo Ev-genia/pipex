@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:54:53 by mlarra            #+#    #+#             */
-/*   Updated: 2022/02/22 16:40:51 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/02/28 10:36:41 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (dest);
 }
 
-int	ft_check_path(char *command, char **tracks)
+char	*ft_check_path(char *command, char **tracks)
 {
 	int		i;
 	char	*tmp;
@@ -96,32 +96,52 @@ int	ft_check_path(char *command, char **tracks)
 	while (tracks[i])
 	{
 		path = ft_strjoin(tracks[i], "/");
-		tmp = ft_strjoin(tmp, command);
+		tmp = ft_strjoin(path, command);
 		free(path);
 		if (access(tmp, X_OK) == 0)
-		{
+			return (tmp);
+		else
 			free(tmp);
-			return (0);
-		}
 		i++;
 	}
-	free(tmp);
-	return (-1);
+	return (NULL);
 }
 
-char	*ft_get_path(char **env, char *cmd)
+void	ft_free(char **mas)
+{
+	int	i;
+
+	i = 0;
+	while (mas[i])
+	{
+		free(mas[i]);
+		i++;
+	}
+	free(mas);
+}
+
+char	*ft_get_path(char **env, char **cmd)
 {
 	int		num_str;
 	char	*str;
 	char	**tracks;
 
+	str = NULL;
 	num_str = ft_get_number_str(env);
 	if (num_str == -1)
+	{
+		ft_free(cmd);
 		ft_perror("Not found command");
-	tracks = ft_split(env[num_str] + 5, ":");
-	if (ft_check_path(cmd, tracks) == -1)
+	}
+	tracks = ft_split(env[num_str] + 5, ':');
+	if (ft_check_path(cmd[0], tracks) == NULL)
+	{
+		ft_free(cmd);
+		ft_free(tracks);
 		ft_perror("Not found command");
-	
+	}
+	else
+		str = ft_check_path(cmd[0], tracks);
 	return (str);
 }
 
@@ -130,8 +150,8 @@ void	ft_execve(char **env, char *cmd)
 	char	*path;
 	char	**command;
 
-	command = ft_split(cmd, " ");
-	path = ft_get_path(env, command[0]);
+	command = ft_split(cmd, ' ');
+	path = ft_get_path(env, command);
 	execve(path, command, env);
 }
 
@@ -142,13 +162,27 @@ void	ft_first_child(char **argv, int *fd_pipe, char **env)
 	fd_in = open(argv[1], O_RDONLY, 0644);
 	if (fd_in == -1)
 		ft_perror(argv[1]);
-	if (dup2(fd_in, STDIN_FILENO) == -1 || dup2(fd_pipe[1], STDOUT_FILENO))
-		ft_perror("Can not create copy of descriptor");
+	if (dup2(fd_in, STDIN_FILENO) == -1 || dup2(fd_pipe[1], STDOUT_FILENO) == -1)
+		ft_perror("Can not create copy of descriptor1");
 	close(fd_pipe[0]);
 	close(fd_in);
 	close(fd_pipe[1]);
-//получить путь, выполнить команду
 	ft_execve(env, argv[2]);
+}
+
+void	ft_second_child(int ac, char **argv, int *fd_pipe, char **env)
+{
+	int	fd_out;
+
+	fd_out = open(argv[ac - 1], O_WRONLY + O_TRUNC + O_CREAT, 0644);
+	if (fd_out == -1)
+		ft_perror(argv[ac - 1]);
+	if (dup2(fd_out, STDOUT_FILENO) == -1 || dup2(fd_pipe[0], STDIN_FILENO) == -1)
+		ft_perror("Can not create copy of descriptor2");
+	close(fd_pipe[1]);
+	close(fd_out);
+	close(fd_pipe[0]);
+	ft_execve(env, argv[ac - 2]);
 }
 
 void	pipex(int argc, char **argv, char **env)
@@ -168,7 +202,13 @@ void	pipex(int argc, char **argv, char **env)
 	if (pid2 == -1)
 		ft_perror("Pipe failed");
 	if (pid2 == 0)
-		ft_second_child(argv, fd_pipe);
+		ft_second_child(argc, argv, fd_pipe, env);
+	close(fd_pipe[0]);
+	close(fd_pipe[1]);
+	if (waitpid(pid1, NULL, 0) == -1)
+		ft_perror("Error of terminated 1 child process");
+	if (waitpid(pid2, NULL, 0) == -1)
+		ft_perror("Error of terminated 2 child process");
 }
 
 int	main(int argc, char **argv, char **env)
