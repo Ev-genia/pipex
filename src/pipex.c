@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:54:53 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/02 09:57:19 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/02 11:02:53 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@ void	ft_perror(char *str)
 {
 	perror(str);
 	exit(1);
+}
+
+void	ft_write(char *s)
+{
+	int	i;
+
+	i = -1;
+	while (s[++i])
+		write(2, &s[i], 1);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -67,7 +76,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	dest = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-write(2, "malloc strjoin*\n", 16);
+// write(2, "malloc strjoin*\n", 16);
 	if (dest == NULL)
 		return (NULL);
 	i = 0;
@@ -101,11 +110,11 @@ char	*ft_check_path(char *command, char **tracks)
 		path = ft_strjoin(tracks[i], "/");
 		tmp = ft_strjoin(path, command);
 		free(path);
-write(2, "free strjoin*\n", 14);
+// write(2, "free strjoin*\n", 14);
 		if (access(tmp, X_OK) == 0)
 			return (tmp);
 		free(tmp);
-write(2, "free strjoin*\n", 14);			
+// write(2, "free strjoin*\n", 14);			
 		i++;
 	}
 	return (NULL);
@@ -119,48 +128,35 @@ void	ft_free(char **mas)
 	while (mas[i])
 	{
 		free(mas[i]);
-write(2, "free*\n", 6);
+// write(2, "free*\n", 6);
 		i++;
 	}
 	free(mas);
-write(2, "free**\n", 7);
+// write(2, "free**\n", 7);
 }
 
-// char	*ft_get_path(char **env, char **cmd)
-char	*ft_get_path(char *env, char **cmd)
+char	*ft_get_path(char **env, char **cmd)
 {
-	// int		num_str;
+	int		num_str;
 	char	*str;
 	char	**tracks;
 
 	str = NULL;
 
-	// num_str = ft_get_number_str(env);
-// 	if (num_str == -1)
-// 	{
-		
-// 		write(2, "No command ", 11);
-// 		perror(cmd[0]);
-// write(2, "no nbr srt, free cmd\n", 21);
-// 		ft_free(cmd);
-
-// while (1) {}
-// 		exit(1);
-// 	}
-	tracks = ft_split(env + 5, ':');
-	if (ft_check_path(cmd[0], tracks) == NULL)
+	num_str = ft_get_number_str(env);
+	if (num_str == -1)
 	{
-		perror(cmd[0]);
-write(2, "cmd_no path\n", 12);		
+		write(2, "command not found: ", 19);
+		ft_write(cmd[0]);
+		write(2, "\n", 1);
+// write(2, "no nbr srt, free cmd\n", 21);
 		ft_free(cmd);
-write(2, "tracks_no path\n", 15);
-		ft_free(tracks);
-
-while (1) {}
-
-		exit(127);
+		exit(1);
 	}
-	else
+	tracks = ft_split(env[num_str] + 5, ':');
+	// if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/') || cmd[0] == '~')
+	// 	return (cmd);
+	// else
 		str = ft_check_path(cmd[0], tracks);
 	return (str);
 }
@@ -169,21 +165,25 @@ void	ft_execve(char **env, char *cmd)
 {
 	char	*path;
 	char	**command;
-	int		num_str;
+	// int		num_str;
 	
-	num_str = ft_get_number_str(env);
-	if (num_str == -1)
+	// num_str = ft_get_number_str(env);
+	// if (num_str == -1)
+	// 	ft_perror(cmd);
+	command = ft_split(cmd, ' ');
+	// path = ft_get_path(env[num_str], command[0]);
+	path = ft_get_path(env, command);
+	if (!path)
 	{
-		perror(cmd);
-// while (1) {}
+		write(2, "command not found: ", 19);
+		ft_write(command[0]);
+		write(2, "\n", 1);
+		ft_free(command);
 		exit(1);
 	}
-	command = ft_split(cmd, ' ');
-	path = ft_get_path(env[num_str], command);
-	// execve(path, command, env);
 	if (execve(path, command, env) == -1)
 	{
-			ft_perror(command);
+			ft_perror(command[0]);
 			perror(path);
 			ft_perror(path);
 			exit(1);
