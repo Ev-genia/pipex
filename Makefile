@@ -6,24 +6,38 @@
 #    By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 15:05:06 by mlarra            #+#    #+#              #
-#    Updated: 2022/03/02 11:23:55 by mlarra           ###   ########.fr        #
+#    Updated: 2022/03/02 15:55:26 by mlarra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	pipex
 
+NAME_BONUS	=	pipex_bonus
+
 SRCS_DIR	=	src
+
+SRCS_BONUS_DIR	= src_bonus
 
 SRCS	=	pipex.c	ft_split.c	ft_execve.c	ft_strjoin.c	ft_strncmp.c\
 			utils.c
 
+SRCS_BONUS	= pipex_bonus.c	ft_split_bonus.c	ft_execve_bonus.c\
+			ft_strjoin_bonus.c	ft_strncmp_bonus.c	utils_bonus.c\
+			ft_pipex_here_doc.c
+
 SOURCES	=	${addprefix ${SRCS_DIR}/, ${SRCS}}
+
+SOURCES_BONUS	= ${addprefix ${SRCS_BONUS_DIR}/, ${SRCS_BONUS}}
 
 OBJ_DIR	=	objects
 
 OBJ		=	${SOURCES:${SRCS_DIR}/%.c=${OBJ_DIR}/%.o}
 
+OBJ_BONUS	=	${SOURCES_BONUS:${SRCS_BONUS_DIR}/%.c=${OBJ_DIR}/%.o}
+
 HEADER	=	${SRCS_DIR}/pipex.h
+
+HEADER_BONUS	=	${SRCS_BONUS_DIR}/pipex_bonus.h
 
 CFLAGS	=	-Wall -Wextra -Werror -g
 
@@ -33,13 +47,20 @@ RM		=	rm -f
 
 .PHONY	:	all	clean	fclean	re	bonus norm
 
-${OBJ_DIR}/%.o	: ${SRCS_DIR}/%.c ${HEADER}
+${OBJ_DIR}/%.o	:	${SRCS_DIR}/%.c ${HEADER}
 	@mkdir ${OBJ_DIR} 2> /dev/null || true
 	${CC} ${CFLAGS} -c $< -o $@
-# @echo "created objects file"
+
+${OBJ_DIR}/%.o	:	${SRCS_BONUS_DIR}/%.c ${HEADER_BONUS}
+	@mkdir ${OBJ_DIR} 2> /dev/null || true
+	${CC} ${CFLAGS} -c $< -o $@
 
 ${NAME}	:	${HEADER} ${OBJ}
 	${CC} ${CFLAGS} ${SOURCES} -o ${NAME}
+
+${NAME_BONUS}	:	${HEADER_BONUS} ${OBJ}
+	${CC} ${CFLAGS} ${SOURCES_BONUS} -o ${NAME_BONUS}
+# ${CC} ${CFLAGS} ${SOURCES_BONUS} -o ${NAME}
 
 all		:	${NAME}
 
@@ -52,8 +73,10 @@ fclean	:	clean
 
 re		:	fclean	all
 
+bonus	:	${NAME_BONUS}
 # bonus	:
+# 	@make OBJECTS="${OBJ_BONUS}" all
 
 norm	:
-	norminette ${SRCS}
-	norminette ${HEADER}
+	norminette ${SRCS} ${SRCS_BONUS}
+	norminette ${HEADER} ${HEADER_BONUS}

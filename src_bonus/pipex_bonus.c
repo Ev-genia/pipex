@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:54:53 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/02 12:41:10 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/02 16:32:05 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	ft_first_child(char **argv, int *fd_pipe, char **env)
 {
@@ -86,10 +86,25 @@ void	pipex(int argc, char **argv, char **env)
 
 int	main(int argc, char **argv, char **env)
 {
-	if (argc != 5)
+	if (argc < 5)
 	{
-		write(2, "Too few or too many arguments\n", 30);
+		write(2, "Too few arguments\n", 18);
 		return(1);
+	}
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	{
+		if (argc > 6)
+		{
+			write(2, "Too many arguments\n", 19);
+			return(1);
+		}
+		pipex_here_doc(argc, argv, env);
+		return (0);
+	}
+	while (argc > 5)
+	{
+		pipex(argc, argv, env);
+		argc--;
 	}
 	pipex(argc, argv, env);
 	return (0);
