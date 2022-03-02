@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:55:17 by mlarra            #+#    #+#             */
-/*   Updated: 2022/02/22 15:38:23 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/02 11:24:41 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,11 @@
 # include <stdio.h>
 
 char	**ft_split(char const *s, char c);
+char	*ft_strjoin(char const *s1, char const *s2);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+void	ft_execve(char **env, char *cmd);
+void	ft_write(char *s);
+void	ft_free(char **mas);
+void	ft_perror(char *str);
 
 #endif

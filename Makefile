@@ -6,7 +6,7 @@
 #    By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 15:05:06 by mlarra            #+#    #+#              #
-#    Updated: 2022/02/22 15:37:29 by mlarra           ###   ########.fr        #
+#    Updated: 2022/03/02 11:23:55 by mlarra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME	=	pipex
 
 SRCS_DIR	=	src
 
-SRCS	=	pipex.c	ft_split.c
+SRCS	=	pipex.c	ft_split.c	ft_execve.c	ft_strjoin.c	ft_strncmp.c\
+			utils.c
 
 SOURCES	=	${addprefix ${SRCS_DIR}/, ${SRCS}}
 

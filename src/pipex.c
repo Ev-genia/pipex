@@ -6,189 +6,173 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:54:53 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/02 11:02:53 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/02 11:22:33 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_perror(char *str)
-{
-	perror(str);
-	exit(1);
-}
+// void	ft_perror(char *str)
+// {
+// 	perror(str);
+// 	exit(1);
+// }
 
-void	ft_write(char *s)
-{
-	int	i;
+// size_t	ft_strlen(const char *s)
+// {
+// 	size_t	i;
 
-	i = -1;
-	while (s[++i])
-		write(2, &s[i], 1);
-}
+// 	i = 0;
+// 	while (*s)
+// 	{
+// 		i++;
+// 		s++;
+// 	}
+// 	return (i);
+// }
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	if (n < 1)
-		return (0);
-	while (n > 1 && *s1 != '\0' && *s2 != '\0' && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-		n--;
-	}
-	return (*(unsigned char *)s1 - *(unsigned char *)s2);
-}
+// void	ft_write(char *s)
+// {
+// 	int	i;
 
-int	ft_get_number_str(char **env)
-{
-	int	i;
+// 	write(2, "command not found: ", 19);
+// 	i = -1;
+// 	while (s[++i])
+// 		write(2, &s[i], 1);
+// 	write(2, "\n", 1);
+// }
 
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp("PATH=", env[i], 5) == 0)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
+// int	ft_strncmp(const char *s1, const char *s2, size_t n)
+// {
+// 	if (n < 1)
+// 		return (0);
+// 	while (n > 1 && *s1 != '\0' && *s2 != '\0' && *s1 == *s2)
+// 	{
+// 		s1++;
+// 		s2++;
+// 		n--;
+// 	}
+// 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+// }
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
+// int	ft_get_number_str(char **env)
+// {
+// 	int	i;
 
-	i = 0;
-	while (*s)
-	{
-		i++;
-		s++;
-	}
-	return (i);
-}
+// 	i = 0;
+// 	while (env[i])
+// 	{
+// 		if (ft_strncmp("PATH=", env[i], 5) == 0)
+// 			return (i);
+// 		i++;
+// 	}
+// 	return (-1);
+// }
 
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*dest;
-	int		i;
-	int		j;
+// char	*ft_strjoin(char const *s1, char const *s2)
+// {
+// 	char	*dest;
+// 	int		i;
+// 	int		j;
 
-	if (!s1 || !s2)
-		return (NULL);
-	dest = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-// write(2, "malloc strjoin*\n", 16);
-	if (dest == NULL)
-		return (NULL);
-	i = 0;
-	while (s1[i] != '\0')
-	{
-		dest[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		dest[i] = s2[j];
-		j++;
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
+// 	if (!s1 || !s2)
+// 		return (NULL);
+// 	dest = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+// 	if (dest == NULL)
+// 		return (NULL);
+// 	i = 0;
+// 	while (s1[i] != '\0')
+// 	{
+// 		dest[i] = s1[i];
+// 		i++;
+// 	}
+// 	j = 0;
+// 	while (s2[j] != '\0')
+// 	{
+// 		dest[i] = s2[j];
+// 		j++;
+// 		i++;
+// 	}
+// 	dest[i] = '\0';
+// 	return (dest);
+// }
 
-char	*ft_check_path(char *command, char **tracks)
-{
-	int		i;
-	char	*tmp;
-	char	*path;
+// char	*ft_check_path(char *command, char **tracks)
+// {
+// 	int		i;
+// 	char	*tmp;
+// 	char	*path;
 
-	if (command[0] == '/' || (command[0] == '.' && command[1] == '/') || command[0] == '~')
-		return (command);
-	i = 0;
-	while (tracks[i])
-	{
-		path = ft_strjoin(tracks[i], "/");
-		tmp = ft_strjoin(path, command);
-		free(path);
-// write(2, "free strjoin*\n", 14);
-		if (access(tmp, X_OK) == 0)
-			return (tmp);
-		free(tmp);
-// write(2, "free strjoin*\n", 14);			
-		i++;
-	}
-	return (NULL);
-}
+// 	if (command[0] == '/' || (command[0] == '.' && command[1] == '/') || command[0] == '~')
+// 		return (command);
+// 	i = 0;
+// 	while (tracks[i])
+// 	{
+// 		path = ft_strjoin(tracks[i], "/");
+// 		tmp = ft_strjoin(path, command);
+// 		free(path);
+// 		if (access(tmp, X_OK) == 0)
+// 			return (tmp);
+// 		free(tmp);
+// 		i++;
+// 	}
+// 	return (NULL);
+// }
 
-void	ft_free(char **mas)
-{
-	int	i;
+// void	ft_free(char **mas)
+// {
+// 	int	i;
 
-	i = 0;
-	while (mas[i])
-	{
-		free(mas[i]);
-// write(2, "free*\n", 6);
-		i++;
-	}
-	free(mas);
-// write(2, "free**\n", 7);
-}
+// 	i = 0;
+// 	while (mas[i])
+// 	{
+// 		free(mas[i]);
+// 		i++;
+// 	}
+// 	free(mas);
+// }
 
-char	*ft_get_path(char **env, char **cmd)
-{
-	int		num_str;
-	char	*str;
-	char	**tracks;
+// char	*ft_get_path(char **env, char **cmd)
+// {
+// 	int		num_str;
+// 	char	*str;
+// 	char	**tracks;
 
-	str = NULL;
+// 	str = NULL;
 
-	num_str = ft_get_number_str(env);
-	if (num_str == -1)
-	{
-		write(2, "command not found: ", 19);
-		ft_write(cmd[0]);
-		write(2, "\n", 1);
-// write(2, "no nbr srt, free cmd\n", 21);
-		ft_free(cmd);
-		exit(1);
-	}
-	tracks = ft_split(env[num_str] + 5, ':');
-	// if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/') || cmd[0] == '~')
-	// 	return (cmd);
-	// else
-		str = ft_check_path(cmd[0], tracks);
-	return (str);
-}
+// 	num_str = ft_get_number_str(env);
+// 	if (num_str == -1)
+// 	{
+// 		ft_write(cmd[0]);
+// 		ft_free(cmd);
+// 		exit(1);
+// 	}
+// 	tracks = ft_split(env[num_str] + 5, ':');
+// 		str = ft_check_path(cmd[0], tracks);
+// 	return (str);
+// }
 
-void	ft_execve(char **env, char *cmd)
-{
-	char	*path;
-	char	**command;
-	// int		num_str;
+// void	ft_execve(char **env, char *cmd)
+// {
+// 	char	*path;
+// 	char	**command;
 	
-	// num_str = ft_get_number_str(env);
-	// if (num_str == -1)
-	// 	ft_perror(cmd);
-	command = ft_split(cmd, ' ');
-	// path = ft_get_path(env[num_str], command[0]);
-	path = ft_get_path(env, command);
-	if (!path)
-	{
-		write(2, "command not found: ", 19);
-		ft_write(command[0]);
-		write(2, "\n", 1);
-		ft_free(command);
-		exit(1);
-	}
-	if (execve(path, command, env) == -1)
-	{
-			ft_perror(command[0]);
-			perror(path);
-			ft_perror(path);
-			exit(1);
-	}
-}
+// 	command = ft_split(cmd, ' ');
+// 	path = ft_get_path(env, command);
+// 	if (!path)
+// 	{
+// 		ft_write(command[0]);
+// 		ft_free(command);
+// 		exit(1);
+// 	}
+// 	if (execve(path, command, env) == -1)
+// 	{
+// 		ft_perror(command[0]);
+// 		perror(path);
+// 		ft_perror(path);
+// 		exit(1);
+// 	}
+// }
 
 void	ft_first_child(char **argv, int *fd_pipe, char **env)
 {
