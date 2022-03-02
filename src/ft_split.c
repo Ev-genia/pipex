@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 12:01:33 by mlarra            #+#    #+#             */
-/*   Updated: 2022/02/22 15:37:13 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/02/28 12:00:16 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	*ft_wd(char const *str, char c)
 	while (str[i] && str[i] != c)
 		i++;
 	wd = malloc(sizeof(char) * (i + 1));
+write(2, "malloc*\n", 8);
 	if (wd == NULL)
 		return (NULL);
 	i = 0;
@@ -59,9 +60,11 @@ void	free_words(int i, char **ptr)
 	while (i > 0)
 	{
 		free(ptr[i - 1]);
+write(2, "free split**\n", 13);
 		i--;
 	}
 	free(ptr);
+write(2, "free split*\n", 12);
 }
 
 char	**ft_return(int i, char ***ptr_words)
@@ -80,6 +83,7 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	words = ft_words(s, c);
 	ptr_words = malloc(sizeof(char *) * (words + 1));
+write(2, "malloc split**\n", 15);
 	if (ptr_words == NULL)
 		return (NULL);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:54:53 by mlarra            #+#    #+#             */
-/*   Updated: 2022/02/28 10:36:41 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/02 09:57:19 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	dest = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+write(2, "malloc strjoin*\n", 16);
 	if (dest == NULL)
 		return (NULL);
 	i = 0;
@@ -92,16 +93,19 @@ char	*ft_check_path(char *command, char **tracks)
 	char	*tmp;
 	char	*path;
 
+	if (command[0] == '/' || (command[0] == '.' && command[1] == '/') || command[0] == '~')
+		return (command);
 	i = 0;
 	while (tracks[i])
 	{
 		path = ft_strjoin(tracks[i], "/");
 		tmp = ft_strjoin(path, command);
 		free(path);
+write(2, "free strjoin*\n", 14);
 		if (access(tmp, X_OK) == 0)
 			return (tmp);
-		else
-			free(tmp);
+		free(tmp);
+write(2, "free strjoin*\n", 14);			
 		i++;
 	}
 	return (NULL);
@@ -115,30 +119,46 @@ void	ft_free(char **mas)
 	while (mas[i])
 	{
 		free(mas[i]);
+write(2, "free*\n", 6);
 		i++;
 	}
 	free(mas);
+write(2, "free**\n", 7);
 }
 
-char	*ft_get_path(char **env, char **cmd)
+// char	*ft_get_path(char **env, char **cmd)
+char	*ft_get_path(char *env, char **cmd)
 {
-	int		num_str;
+	// int		num_str;
 	char	*str;
 	char	**tracks;
 
 	str = NULL;
-	num_str = ft_get_number_str(env);
-	if (num_str == -1)
-	{
-		ft_free(cmd);
-		ft_perror("Not found command");
-	}
-	tracks = ft_split(env[num_str] + 5, ':');
+
+	// num_str = ft_get_number_str(env);
+// 	if (num_str == -1)
+// 	{
+		
+// 		write(2, "No command ", 11);
+// 		perror(cmd[0]);
+// write(2, "no nbr srt, free cmd\n", 21);
+// 		ft_free(cmd);
+
+// while (1) {}
+// 		exit(1);
+// 	}
+	tracks = ft_split(env + 5, ':');
 	if (ft_check_path(cmd[0], tracks) == NULL)
 	{
+		perror(cmd[0]);
+write(2, "cmd_no path\n", 12);		
 		ft_free(cmd);
+write(2, "tracks_no path\n", 15);
 		ft_free(tracks);
-		ft_perror("Not found command");
+
+while (1) {}
+
+		exit(127);
 	}
 	else
 		str = ft_check_path(cmd[0], tracks);
@@ -149,10 +169,25 @@ void	ft_execve(char **env, char *cmd)
 {
 	char	*path;
 	char	**command;
-
+	int		num_str;
+	
+	num_str = ft_get_number_str(env);
+	if (num_str == -1)
+	{
+		perror(cmd);
+// while (1) {}
+		exit(1);
+	}
 	command = ft_split(cmd, ' ');
-	path = ft_get_path(env, command);
-	execve(path, command, env);
+	path = ft_get_path(env[num_str], command);
+	// execve(path, command, env);
+	if (execve(path, command, env) == -1)
+	{
+			ft_perror(command);
+			perror(path);
+			ft_perror(path);
+			exit(1);
+	}
 }
 
 void	ft_first_child(char **argv, int *fd_pipe, char **env)
@@ -161,9 +196,17 @@ void	ft_first_child(char **argv, int *fd_pipe, char **env)
 
 	fd_in = open(argv[1], O_RDONLY, 0644);
 	if (fd_in == -1)
+	{
+		close(fd_pipe[0]);
+		close(fd_pipe[1]);
 		ft_perror(argv[1]);
+	}
 	if (dup2(fd_in, STDIN_FILENO) == -1 || dup2(fd_pipe[1], STDOUT_FILENO) == -1)
+	{
+		close(fd_pipe[0]);
+		close(fd_pipe[1]);
 		ft_perror("Can not create copy of descriptor1");
+	}
 	close(fd_pipe[0]);
 	close(fd_in);
 	close(fd_pipe[1]);
@@ -176,9 +219,17 @@ void	ft_second_child(int ac, char **argv, int *fd_pipe, char **env)
 
 	fd_out = open(argv[ac - 1], O_WRONLY + O_TRUNC + O_CREAT, 0644);
 	if (fd_out == -1)
+	{
+		close(fd_pipe[0]);
+		close(fd_pipe[1]);
 		ft_perror(argv[ac - 1]);
+	}
 	if (dup2(fd_out, STDOUT_FILENO) == -1 || dup2(fd_pipe[0], STDIN_FILENO) == -1)
+	{
+		close(fd_pipe[0]);
+		close(fd_pipe[1]);
 		ft_perror("Can not create copy of descriptor2");
+	}
 	close(fd_pipe[1]);
 	close(fd_out);
 	close(fd_pipe[0]);
@@ -214,7 +265,10 @@ void	pipex(int argc, char **argv, char **env)
 int	main(int argc, char **argv, char **env)
 {
 	if (argc != 5)
-		ft_perror("Too few or many arguments");
+	{
+		write(2, "Too few or too many arguments\n", 30);
+		return(1);
+	}
 	pipex(argc, argv, env);
 	return (0);
 }
