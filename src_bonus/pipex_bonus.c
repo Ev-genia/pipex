@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:54:53 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/02 16:32:05 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/03 17:35:18 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,21 +91,18 @@ int	main(int argc, char **argv, char **env)
 		write(2, "Too few arguments\n", 18);
 		return(1);
 	}
-	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	else
 	{
-		if (argc > 6)
+		if (env == 0)
+			ft_perror("env error");
+		if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+			pipex_here_doc(argc, argv, env);
+		while (argc - 2 > 5)
 		{
-			write(2, "Too many arguments\n", 19);
-			return(1);
+			pipex(argc, argv, env);
+			argc--;
 		}
-		pipex_here_doc(argc, argv, env);
-		return (0);
-	}
-	while (argc > 5)
-	{
 		pipex(argc, argv, env);
-		argc--;
 	}
-	pipex(argc, argv, env);
 	return (0);
 }

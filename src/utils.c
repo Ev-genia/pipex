@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 11:16:18 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/02 11:23:58 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/03 10:05:42 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,17 @@ void	ft_free(char **mas)
 	while (mas[++i])
 		free(mas[i]);
 	free(mas);
+}
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (*s)
+	{
+		i++;
+		s++;
+	}
+	return (i);
 }

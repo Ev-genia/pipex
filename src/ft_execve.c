@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 11:14:49 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/02 11:21:42 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/03 10:08:08 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*ft_get_path(char **env, char **cmd)
 		exit(1);
 	}
 	tracks = ft_split(env[num_str] + 5, ':');
-		str = ft_check_path(cmd[0], tracks);
+	str = ft_check_path(cmd[0], tracks);
 	return (str);
 }
 

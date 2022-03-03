@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:54:53 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/02 12:41:10 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/03 17:16:52 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int	main(int argc, char **argv, char **env)
 		write(2, "Too few or too many arguments\n", 30);
 		return(1);
 	}
+	if (env == 0)
+		ft_perror("env error");
 	pipex(argc, argv, env);
 	return (0);
 }

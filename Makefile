@@ -6,13 +6,13 @@
 #    By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 15:05:06 by mlarra            #+#    #+#              #
-#    Updated: 2022/03/02 15:55:26 by mlarra           ###   ########.fr        #
+#    Updated: 2022/03/03 12:01:06 by mlarra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	pipex
 
-NAME_BONUS	=	pipex_bonus
+# NAME_BONUS	=	pipex_bonus
 
 SRCS_DIR	=	src
 
@@ -23,7 +23,7 @@ SRCS	=	pipex.c	ft_split.c	ft_execve.c	ft_strjoin.c	ft_strncmp.c\
 
 SRCS_BONUS	= pipex_bonus.c	ft_split_bonus.c	ft_execve_bonus.c\
 			ft_strjoin_bonus.c	ft_strncmp_bonus.c	utils_bonus.c\
-			ft_pipex_here_doc.c
+			ft_pipex_here_doc.c	get_next_line.c	get_next_line_utils.c
 
 SOURCES	=	${addprefix ${SRCS_DIR}/, ${SRCS}}
 
@@ -55,12 +55,10 @@ ${OBJ_DIR}/%.o	:	${SRCS_BONUS_DIR}/%.c ${HEADER_BONUS}
 	@mkdir ${OBJ_DIR} 2> /dev/null || true
 	${CC} ${CFLAGS} -c $< -o $@
 
-${NAME}	:	${HEADER} ${OBJ}
-	${CC} ${CFLAGS} ${SOURCES} -o ${NAME}
-
-${NAME_BONUS}	:	${HEADER_BONUS} ${OBJ}
-	${CC} ${CFLAGS} ${SOURCES_BONUS} -o ${NAME_BONUS}
-# ${CC} ${CFLAGS} ${SOURCES_BONUS} -o ${NAME}
+# ${NAME}	:	${HEADER} ${OBJ} ${HEADER_BONUS}
+# 	${CC} ${CFLAGS} ${SOURCES} -o ${NAME}
+${NAME}	:	${OBJ}
+	${CC} ${CFLAGS} $^ -o ${NAME}
 
 all		:	${NAME}
 
@@ -73,9 +71,8 @@ fclean	:	clean
 
 re		:	fclean	all
 
-bonus	:	${NAME_BONUS}
-# bonus	:
-# 	@make OBJECTS="${OBJ_BONUS}" all
+bonus	:
+	@make OBJ="${OBJ_BONUS}" all
 
 norm	:
 	norminette ${SRCS} ${SRCS_BONUS}
