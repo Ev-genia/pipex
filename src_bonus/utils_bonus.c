@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 11:16:18 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/05 16:33:22 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/09 09:40:39 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,15 @@ void	ft_putstr(char *s, int fd)
 	while (s[++i])
 		write(fd, &s[i], 1);
 	write(fd, "\n", 1);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	if (!s)
+		return ;
+	i = -1;
+	while (s[++i])
+		write(fd, &s[i], 1);
 }

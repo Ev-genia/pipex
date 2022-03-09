@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 11:14:49 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/05 16:59:33 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/09 10:09:00 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,36 +92,21 @@ void	ft_execve(char **env, char *cmd)
 
 void	ft_execve_h_d(char *stop, int *fds)
 {
-	//check on " "?
 	char	*term_str;
 
-// printf("exec fd_pipe[0]: %d, fd_pipe[1]: %d\n", fds[0], fds[1]);	
-// perror("test1");	
 	close(fds[0]);
 	stop = ft_strjoin(stop, "\n");
 	write(0, "pipex here_doc> ", 16);
 	term_str = get_next_line(0);
 	while (term_str != NULL && ft_strncmp(term_str, stop, ft_strlen(stop)) != 0)
 	{
-// perror("test4");
-// printf("exec1 fd_pipe[0]: %d, fd_pipe[1]: %d\n", fds[0], fds[1]);
-		ft_putstr(term_str, fds[1]);
+		ft_putstr_fd(term_str, 1);
 		free(term_str);
-// perror("test3");
 		write(0, "pipex here_doc> ", 16);
 		term_str = get_next_line(0);
 	}
 	if (term_str != NULL)
 		free(term_str);
 	free(stop);
-	// if (execve(path, command, env) == -1)
-	// {
-	// 	ft_perror(command[0]);
-	// 	perror(path);
-	// 	ft_perror(path);
-	// 	free(term_str);
-	// 	exit(1);
-	// }
-// perror("test2");
 	exit(0);
 }
