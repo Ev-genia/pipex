@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 11:14:49 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/09 17:10:30 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/09 17:19:30 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ char	*ft_check_path(char *command, char **tracks)
 	char	*tmp;
 	char	*path;
 
-	if (command[0] == '/' || (command[0] == '.' && command[1] == '/') || command[0] == '~')
+	if (command[0] == '/' || (command[0] == '.' && command[1] == '/')
+		|| command[0] == '~')
 		return (command);
 	i = 0;
 	while (tracks[i])
