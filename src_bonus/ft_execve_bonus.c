@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 11:14:49 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/09 12:56:23 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/09 15:47:14 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,25 +88,4 @@ void	ft_execve(char **env, char *cmd)
 		ft_perror(path);
 		exit(1);
 	}
-}
-
-void	ft_execve_h_d(char *stop, int *fds)
-{
-	char	*term_str;
-
-	close(fds[0]);
-	stop = ft_strjoin(stop, "\n");
-	write(0, "pipex here_doc> ", 16);
-	term_str = get_next_line(0);
-	while (term_str != NULL && ft_strncmp(term_str, stop, ft_strlen(stop)) != 0)
-	{
-		ft_putstr_fd(term_str, 1);
-		free(term_str);
-		write(0, "pipex here_doc> ", 16);
-		term_str = get_next_line(0);
-	}
-	if (term_str != NULL)
-		free(term_str);
-	free(stop);
-	exit(0);
 }

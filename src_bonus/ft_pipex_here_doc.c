@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 15:52:24 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/09 12:56:17 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/09 15:47:26 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,24 @@ void	ft_init_struct(int argc, char **argv, char **env, t_pipe *str_pipex)
 
 void	ft_child_h_d(char **argv, int *fd_pipe)
 {
-	if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
-	{
-		close(fd_pipe[0]);
-		close(fd_pipe[1]);
-		ft_perror("Error of create copy of descriptor");
-	}
+	char	*term_str;
+	char	*stop;
+
 	close(fd_pipe[0]);
-	close(fd_pipe[1]);
-	ft_execve_h_d(argv[2], fd_pipe);
+	stop = ft_strjoin(argv[2], "\n");
+	write(0, "pipex here_doc> ", 16);
+	term_str = get_next_line(0);
+	while (term_str != NULL && ft_strncmp(term_str, stop, ft_strlen(stop)) != 0)
+	{
+		ft_putstr_fd(term_str, fd_pipe[1]);
+		free(term_str);
+		write(0, "pipex here_doc> ", 16);
+		term_str = get_next_line(0);
+	}
+	if (term_str != NULL)
+		free(term_str);
+	free(stop);
+	exit(0);
 }
 
 void	pipex_heredoc(char **argv)
