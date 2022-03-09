@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 11:14:49 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/09 10:09:00 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/09 10:59:15 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ char	*ft_check_path(char *command, char **tracks)
 	char	*tmp;
 	char	*path;
 
-	if (command[0] == '/' || (command[0] == '.' && command[1] == '/') || command[0] == '~')
+	if (command[0] == '/' || (command[0] == '.' && command[1] == '/')
+		|| command[0] == '~')
 		return (command);
 	i = 0;
 	while (tracks[i])
@@ -55,7 +56,6 @@ char	*ft_get_path(char **env, char **cmd)
 	char	**tracks;
 
 	str = NULL;
-
 	num_str = ft_get_number_str(env);
 	if (num_str == -1)
 	{
@@ -72,7 +72,7 @@ void	ft_execve(char **env, char *cmd)
 {
 	char	*path;
 	char	**command;
-	
+
 	command = ft_split(cmd, ' ');
 	path = ft_get_path(env, command);
 	if (!path)

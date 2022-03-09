@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:54:53 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/03 17:16:52 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/09 11:14:39 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_first_child(char **argv, int *fd_pipe, char **env)
 		close(fd_pipe[1]);
 		ft_perror(argv[1]);
 	}
-	if (dup2(fd_in, STDIN_FILENO) == -1 || dup2(fd_pipe[1], STDOUT_FILENO) == -1)
+	if (dup2(fd_in, 1) == -1 || dup2(fd_pipe[1], 0) == -1)
 	{
 		close(fd_pipe[0]);
 		close(fd_pipe[1]);
@@ -46,7 +46,7 @@ void	ft_second_child(int ac, char **argv, int *fd_pipe, char **env)
 		close(fd_pipe[1]);
 		ft_perror(argv[ac - 1]);
 	}
-	if (dup2(fd_out, STDOUT_FILENO) == -1 || dup2(fd_pipe[0], STDIN_FILENO) == -1)
+	if (dup2(fd_out, 1) == -1 || dup2(fd_pipe[0], 0) == -1)
 	{
 		close(fd_pipe[0]);
 		close(fd_pipe[1]);
@@ -89,7 +89,7 @@ int	main(int argc, char **argv, char **env)
 	if (argc != 5)
 	{
 		write(2, "Too few or too many arguments\n", 30);
-		return(1);
+		return (1);
 	}
 	if (env == 0)
 		ft_perror("env error");

@@ -6,13 +6,11 @@
 #    By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 15:05:06 by mlarra            #+#    #+#              #
-#    Updated: 2022/03/03 12:01:06 by mlarra           ###   ########.fr        #
+#    Updated: 2022/03/09 10:35:18 by mlarra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	pipex
-
-# NAME_BONUS	=	pipex_bonus
 
 SRCS_DIR	=	src
 
@@ -55,8 +53,6 @@ ${OBJ_DIR}/%.o	:	${SRCS_BONUS_DIR}/%.c ${HEADER_BONUS}
 	@mkdir ${OBJ_DIR} 2> /dev/null || true
 	${CC} ${CFLAGS} -c $< -o $@
 
-# ${NAME}	:	${HEADER} ${OBJ} ${HEADER_BONUS}
-# 	${CC} ${CFLAGS} ${SOURCES} -o ${NAME}
 ${NAME}	:	${OBJ}
 	${CC} ${CFLAGS} $^ -o ${NAME}
 

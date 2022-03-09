@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 11:17:49 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/09 10:10:18 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/09 10:59:10 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ char	*ft_strjoin_gnl(char const *s1, char const *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	dest = (char *)malloc(sizeof(char) * (ft_strlen_gnl(s1) + 
-		ft_strlen_gnl(s2) + 1));
+	dest = (char *)malloc(sizeof(char) * (ft_strlen_gnl(s1)
+				+ ft_strlen_gnl(s2) + 1));
 	if (dest == NULL)
 		return (NULL);
 	i = -1;

@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:55:17 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/09 10:13:26 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/09 12:13:01 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include "get_next_line.h"
+
+typedef struct s_pipe
+{
+	int		ac;
+	char	**av;
+	char	**env;
+}	t_pipe;
 
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
@@ -31,4 +38,6 @@ void	ft_perror(char *str);
 size_t	ft_strlen(const char *s);
 void	ft_putstr(char *s, int fd);
 void	ft_putstr_fd(char *s, int fd);
+void	ft_init_struct(int argc, char **argv, char **env, t_pipe *str_pipex);
+
 #endif

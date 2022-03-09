@@ -6,17 +6,11 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 11:16:18 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/09 09:40:39 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/09 10:53:00 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-
-void	ft_perror(char *str)
-{
-	perror(str);
-	exit(1);
-}
 
 void	ft_write(char *s)
 {
