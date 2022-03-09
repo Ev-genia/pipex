@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:54:53 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/09 11:14:39 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/09 17:11:12 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	ft_first_child(char **argv, int *fd_pipe, char **env)
 	{
 		close(fd_pipe[0]);
 		close(fd_pipe[1]);
-		ft_perror(argv[1]);
+		// ft_perror(argv[1]);
 	}
-	if (dup2(fd_in, 1) == -1 || dup2(fd_pipe[1], 0) == -1)
+	if (dup2(fd_in, 0) == -1 || dup2(fd_pipe[1], 1) == -1)
 	{
 		close(fd_pipe[0]);
 		close(fd_pipe[1]);
@@ -88,7 +88,7 @@ int	main(int argc, char **argv, char **env)
 {
 	if (argc != 5)
 	{
-		write(2, "Too few or too many arguments\n", 30);
+		write(2, "Error numbers of arguments\n", 27);
 		return (1);
 	}
 	if (env == 0)

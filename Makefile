@@ -6,7 +6,7 @@
 #    By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 15:05:06 by mlarra            #+#    #+#              #
-#    Updated: 2022/03/09 10:35:18 by mlarra           ###   ########.fr        #
+#    Updated: 2022/03/09 15:58:14 by mlarra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ all		:	${NAME}
 
 clean	:
 	${RM} ${OBJ}
+	${RM} ${OBJ_BONUS}
 	@rmdir ${OBJ_DIR} 2> /dev/null || true
 
 fclean	:	clean
