@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:54:53 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/09 12:13:05 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/09 12:26:27 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int	ft_open_outfile(int ac, char **av)
 	return (fd);
 }
 
-// void	ft_first_child(int i, int ac, char **argv, int *fd_pipe, char **env)
-void	ft_first_child(int i, int *fd_pipe, t_pipe pipe_str)//int ac, char **argv, char **env)
+void	ft_first_child(int i, int *fd_pipe, t_pipe pipe_str)
 {
 	int	fd_in;
 
@@ -50,8 +49,7 @@ void	ft_first_child(int i, int *fd_pipe, t_pipe pipe_str)//int ac, char **argv, 
 	ft_execve(pipe_str.env, pipe_str.av[i]);
 }
 
-// void	ft_parent_proc(int i, int ac, char **argv, int *fd_pipe, char **env, int pid)
-void	ft_parent_proc(int i, int *fd_pipe, int pid, t_pipe pipe_str)//int ac, char **argv, char **env)
+void	ft_parent_proc(int i, int *fd_pipe, int pid, t_pipe pipe_str)
 {
 	int	fd_out;
 
@@ -78,7 +76,7 @@ void	ft_parent_proc(int i, int *fd_pipe, int pid, t_pipe pipe_str)//int ac, char
 	close(fd_pipe[0]);
 }
 
-void	pipex(t_pipe pipe_struct, int num)//int argc, char **argv, char **env, int num)
+void	pipex(t_pipe pipe_struct, int num)
 {
 	pid_t	pid1;
 	int		fd_pipe[2];
@@ -89,20 +87,10 @@ void	pipex(t_pipe pipe_struct, int num)//int argc, char **argv, char **env, int 
 	if (pid1 == -1)
 		ft_perror("Pipe failed");
 	if (pid1 == 0)
-		ft_first_child(num, fd_pipe, pipe_struct);//argc, argv,  env);
-		// ft_first_child(num, argc, argv, fd_pipe, env);
-		
+		ft_first_child(num, fd_pipe, pipe_struct);
 	else
-		ft_parent_proc(num, fd_pipe, pid1, pipe_struct);//argc, argv, env);
-		// ft_parent_proc(num, argc, argv, fd_pipe, env, pid1);
+		ft_parent_proc(num, fd_pipe, pid1, pipe_struct);
 }
-
-// void	ft_init_struct(int argc, char **argv, char **env, t_pipe *str_pipex)
-// {
-// 	str_pipex->ac = argc;
-// 	str_pipex->av = argv;
-// 	str_pipex->env = env;	
-// }
 
 int	main(int argc, char **argv, char **env)
 {
@@ -121,7 +109,7 @@ int	main(int argc, char **argv, char **env)
 		ft_init_struct(argc, argv, env, &str_pipex);
 		while (i < argc - 1)
 		{
-			pipex(str_pipex, i);//argc, argv, env, i);
+			pipex(str_pipex, i);
 			i++;
 		}
 	}

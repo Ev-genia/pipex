@@ -6,7 +6,7 @@
 /*   By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 15:52:24 by mlarra            #+#    #+#             */
-/*   Updated: 2022/03/09 12:12:39 by mlarra           ###   ########.fr       */
+/*   Updated: 2022/03/09 12:56:17 by mlarra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_init_struct(int argc, char **argv, char **env, t_pipe *str_pipex)
 {
 	str_pipex->ac = argc;
 	str_pipex->av = argv;
-	str_pipex->env = env;	
+	str_pipex->env = env;
 }
 
 void	ft_child_h_d(char **argv, int *fd_pipe)
