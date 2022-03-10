@@ -6,7 +6,7 @@
 #    By: mlarra <mlarra@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 15:05:06 by mlarra            #+#    #+#              #
-#    Updated: 2022/03/09 15:58:14 by mlarra           ###   ########.fr        #
+#    Updated: 2022/03/10 16:26:41 by mlarra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,5 +72,6 @@ bonus	:
 	@make OBJ="${OBJ_BONUS}" all
 
 norm	:
-	norminette ${SRCS} ${SRCS_BONUS}
+	norminette ${addprefix ${SRCS_DIR}/, ${SRCS}} 
+	norminette ${addprefix ${SRCS_BONUS_DIR}/, ${SRCS_BONUS}}
 	norminette ${HEADER} ${HEADER_BONUS}
